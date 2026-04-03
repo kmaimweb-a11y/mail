@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 컨설팅 서비스</title>
+</head>
+<body style="margin:0;">
+  <div id="wooriConsultingServiceSectionV2">
+    <style>
+      #wooriConsultingServiceSectionV2 {
+        --main-blue: #3868f4;
+        --main-navy: #0000a3;
+        --accent-orange: #e78f4a;
+
+        --bg-1: #f6f8fc;
+        --bg-2: #eef3ff;
+        --surface: rgba(255,255,255,0.76);
+        --surface-strong: rgba(255,255,255,0.9);
+
+        --text-main: #111111;
+        --text-sub: #5f6470;
+        --text-soft: #7f8696;
+        --text-card: #2b2f38;
+
+        --line: rgba(56,104,244,0.12);
+        --line-strong: rgba(56,104,244,0.2);
+
+        font-family: "Pretendard", "Noto Sans KR", sans-serif;
+        background:
+          radial-gradient(circle at 14% 18%, rgba(56,104,244,0.08), transparent 20%),
+          radial-gradient(circle at 86% 82%, rgba(231,143,74,0.06), transparent 18%),
+          linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        padding: 84px 24px 96px;
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      #wooriConsultingServiceSectionV2 * {
+        box-sizing: border-box;
+        word-break: keep-all;
+      }
+
+      #wooriConsultingServiceSectionV2::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(56,104,244,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(56,104,244,0.03) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: radial-gradient(circle at center, black 34%, transparent 84%);
+        -webkit-mask-image: radial-gradient(circle at center, black 34%, transparent 84%);
+        opacity: 0.52;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      #wooriConsultingServiceSectionV2 .cs-wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      #wooriConsultingServiceSectionV2 .title-reveal {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateY(24px);
+        transition:
+          opacity 0.9s cubic-bezier(.2,.8,.2,1),
+          transform 0.9s cubic-bezier(.2,.8,.2,1),
+          filter 0.9s ease;
+      }
+
+      #wooriConsultingServiceSectionV2 .title-reveal.in {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+
+      #wooriConsultingServiceSectionV2 .title-reveal.delay-1 { transition-delay: 0.08s; }
+      #wooriConsultingServiceSectionV2 .title-reveal.delay-2 { transition-delay: 0.16s; }
+
+      #wooriConsultingServiceSectionV2 .cs-head {
+        text-align: center;
+        max-width: 980px;
+        margin: 0 auto 42px;
+      }
+
+      #wooriConsultingServiceSectionV2 .cs-label {
+        display: inline-block;
+        position: relative;
+        font-size: 18px;
+        line-height: 1.4;
+        font-weight: 600;
+        color: var(--text-soft);
+        letter-spacing: -0.03em;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+      }
+
+      #wooriConsultingServiceSectionV2 .cs-label::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 68px;
+        height: 2px;
+        border-radius: 999px;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, var(--main-blue), var(--accent-orange));
+        opacity: 0.9;
+      }
+
+      #wooriConsultingServiceSectionV2 .cs-title {
+        margin: 0;
+        font-size: clamp(28px, 3.2vw, 44px);
+        line-height: 1.34;
+        font-weight: 800;
+        color: var(--text-main);
+        letter-spacing: -0.055em;
+      }
+
+      #wooriConsultingServiceSectionV2 .cs-desc {
+        margin: 18px auto 0;
+        max-width: 920px;
+        font-size: clamp(16px, 1.35vw, 21px);
+        line-height: 1.62;
+        font-weight: 400;
+        color: var(--text-card);
+        letter-spacing: -0.03em;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-list {
+        display: grid;
+        gap: 18px;
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-card {
+        position: relative;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.74) 100%);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 14px 32px rgba(17,17,17,0.04);
+        transition:
+          border-color .22s ease,
+          box-shadow .22s ease,
+          background .22s ease,
+          transform .22s ease;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-card:hover {
+        border-color: var(--line-strong);
+        box-shadow: 0 18px 36px rgba(56,104,244,0.08);
+        background: linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.82) 100%);
+        transform: translateY(-2px);
+      }
+
+      #wooriConsultingServiceSectionV2 .service-card::before {
+        content: "";
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        top: 0;
+        height: 4px;
+        border-radius: 0 0 999px 999px;
+        background: linear-gradient(90deg, var(--main-blue), var(--accent-orange));
+        opacity: 0.9;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-grid {
+        display: grid;
+        grid-template-columns: 0.92fr 1.06fr 0.95fr;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-col {
+        padding: 28px 24px;
+        position: relative;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-col + .service-col {
+        border-left: 1px solid rgba(56,104,244,0.08);
+      }
+
+      #wooriConsultingServiceSectionV2 .service-left {
+        background: linear-gradient(180deg, rgba(56,104,244,0.03), rgba(255,255,255,0));
+      }
+
+      #wooriConsultingServiceSectionV2 .service-no {
+        font-size: clamp(54px, 4vw, 76px);
+        line-height: 1;
+        font-weight: 300;
+        color: rgba(17,17,17,0.14);
+        letter-spacing: -0.06em;
+        margin-bottom: 10px;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-name {
+        margin: 0;
+        font-size: clamp(24px, 2vw, 34px);
+        line-height: 1.18;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        color: var(--text-main);
+      }
+
+      #wooriConsultingServiceSectionV2 .service-target {
+        margin-top: 12px;
+        font-size: clamp(15px, 1vw, 18px);
+        line-height: 1.58;
+        color: var(--text-soft);
+        letter-spacing: -0.025em;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-target .underline {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-color: rgba(56,104,244,0.24);
+      }
+
+      #wooriConsultingServiceSectionV2 .quote-wrap {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        margin-bottom: 18px;
+      }
+
+      #wooriConsultingServiceSectionV2 .quote-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(56,104,244,0.08);
+        border: 1px solid rgba(56,104,244,0.10);
+        box-shadow: 0 8px 20px rgba(56,104,244,0.08);
+      }
+
+      #wooriConsultingServiceSectionV2 .quote-icon svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+      }
+
+      #wooriConsultingServiceSectionV2 .icon-stroke {
+        stroke: #4f648e;
+        stroke-width: 1.8;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-quote {
+        margin: 0;
+        font-size: clamp(18px, 1.38vw, 24px);
+        line-height: 1.42;
+        font-style: italic;
+        font-weight: 500;
+        color: #5d687d;
+        letter-spacing: -0.04em;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-divider {
+        height: 1px;
+        background: linear-gradient(90deg, rgba(56,104,244,0.10), rgba(56,104,244,0.28), rgba(56,104,244,0.10));
+        margin: 18px 0 16px;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-body {
+        margin: 0;
+        font-size: clamp(15px, 1vw, 17px);
+        line-height: 1.68;
+        font-weight: 400;
+        color: var(--text-sub);
+        letter-spacing: -0.025em;
+      }
+
+      #wooriConsultingServiceSectionV2 .service-body .highlight {
+        background: linear-gradient(transparent 58%, rgba(56,104,244,0.12) 58%);
+        font-weight: 500;
+        color: #49556d;
+      }
+
+      #wooriConsultingServiceSectionV2 .point-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 12px;
+      }
+
+      #wooriConsultingServiceSectionV2 .point-list li {
+        position: relative;
+        padding-left: 26px;
+        font-size: clamp(15px, 1vw, 17px);
+        line-height: 1.68;
+        color: #566074;
+        letter-spacing: -0.025em;
+      }
+
+      #wooriConsultingServiceSectionV2 .point-list li::before {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 0.68em;
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--main-blue), var(--accent-orange));
+      }
+
+      #wooriConsultingServiceSectionV2 .cta-wrap {
+        margin-top: 20px;
+      }
+
+      #wooriConsultingServiceSectionV2 .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 188px;
+        min-height: 54px;
+        padding: 0 20px;
+        border-radius: 16px;
+        border: 1px solid rgba(56,104,244,0.16);
+        background: rgba(255,255,255,0.88);
+        color: var(--text-main);
+        font-size: clamp(17px, 1.08vw, 20px);
+        line-height: 1.3;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        text-decoration: none;
+        box-shadow: 0 10px 22px rgba(17,17,17,0.04);
+        transition:
+          transform .22s ease,
+          box-shadow .22s ease,
+          border-color .22s ease,
+          background .22s ease;
+      }
+
+      #wooriConsultingServiceSectionV2 .cta-btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(56,104,244,0.28);
+        background: #ffffff;
+        box-shadow: 0 16px 28px rgba(56,104,244,0.10);
+      }
+
+      @media (max-width: 1080px) {
+        #wooriConsultingServiceSectionV2 {
+          padding: 74px 20px 84px;
+        }
+
+        #wooriConsultingServiceSectionV2 .service-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #wooriConsultingServiceSectionV2 .service-col + .service-col {
+          border-left: 0;
+          border-top: 1px solid rgba(56,104,244,0.08);
+        }
+      }
+
+      @media (max-width: 768px) {
+        #wooriConsultingServiceSectionV2 {
+          padding: 60px 16px 72px;
+        }
+
+        #wooriConsultingServiceSectionV2 .cs-label {
+          font-size: 16px;
+        }
+
+        #wooriConsultingServiceSectionV2 .cs-title {
+          font-size: 30px;
+          line-height: 1.3;
+        }
+
+        #wooriConsultingServiceSectionV2 .cs-desc {
+          font-size: 16px;
+        }
+
+        #wooriConsultingServiceSectionV2 .service-list {
+          gap: 14px;
+        }
+
+        #wooriConsultingServiceSectionV2 .service-card {
+          border-radius: 22px;
+        }
+
+        #wooriConsultingServiceSectionV2 .service-col {
+          padding: 22px 18px;
+        }
+
+        #wooriConsultingServiceSectionV2 .service-name {
+          font-size: 23px;
+        }
+
+        #wooriConsultingServiceSectionV2 .service-quote {
+          font-size: 18px;
+        }
+
+        #wooriConsultingServiceSectionV2 .service-target,
+        #wooriConsultingServiceSectionV2 .service-body,
+        #wooriConsultingServiceSectionV2 .point-list li {
+          font-size: 15px;
+        }
+
+        #wooriConsultingServiceSectionV2 .cta-btn {
+          width: 100%;
+          min-width: 0;
+          min-height: 50px;
+          font-size: 16px;
+        }
+      }
+    </style>
+
+    <div class="cs-wrap">
+      <div class="cs-head">
+        <div class="cs-label title-reveal">컨설팅 서비스</div>
+        <h2 class="cs-title title-reveal delay-1">전략 수립부터 실행까지 연결하는 AI 컨설팅</h2>
+        <p class="cs-desc title-reveal delay-2">각 서비스는 독립적으로도, 통합 패키지로도 운영됩니다.</p>
+      </div>
+
+      <div class="service-list">
+        <article class="service-card">
+          <div class="service-grid">
+            <div class="service-col service-left">
+              <div class="service-no">01</div>
+              <h3 class="service-name">AI 전략수립</h3>
+              <div class="service-target">기업·공공기관 AI 전환<br>의사결정자</div>
+            </div>
+            <div class="service-col">
+              <div class="quote-wrap">
+                <div class="quote-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path class="icon-stroke" d="M12 5v14"></path>
+                    <path class="icon-stroke" d="M5 12h14"></path>
+                    <circle class="icon-stroke" cx="12" cy="12" r="8"></circle>
+                  </svg>
+                </div>
+                <p class="service-quote">"AI 도입을 결정했지만, 어디서부터 시작해야 할지 모르겠다면"</p>
+              </div>
+              <div class="service-divider"></div>
+              <p class="service-body">
+                AI 프로젝트의 70%가 전략 없이 시작해 실패합니다. 조직 현황 진단부터 실행 로드맵까지,
+                <span class="highlight">귀 기관에 맞는 AI 전략</span>을 단계별로 설계합니다.
+              </p>
+            </div>
+            <div class="service-col">
+              <ul class="point-list">
+                <li>글로벌 벤치마킹 기반 기회 매트릭스 제공</li>
+                <li>단계별 AI 도입 로드맵 + 전담 조직 체계 설계</li>
+                <li>업무 자동화율 30%↑ 사례 보유</li>
+              </ul>
+              <div class="cta-wrap">
+                <a href="contact.html?type=문의하기" class="cta-btn">문의하기</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-grid">
+            <div class="service-col service-left">
+              <div class="service-no">02</div>
+              <h3 class="service-name">AI 사내 자격인증</h3>
+              <div class="service-target">기업 HR 담당자, 교육담당자</div>
+            </div>
+            <div class="service-col">
+              <div class="quote-wrap">
+                <div class="quote-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path class="icon-stroke" d="M8 10h8"></path>
+                    <path class="icon-stroke" d="M8 14h5"></path>
+                    <path class="icon-stroke" d="M6 4h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-5 4v-4H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path>
+                  </svg>
+                </div>
+                <p class="service-quote">"AI 교육을 했는데, 직원들이 현업에서 쓰지 않는다면"</p>
+              </div>
+              <div class="service-divider"></div>
+              <p class="service-body">
+                교육만으로는 행동 변화가 일어나지 않습니다. 역량 수준 진단 → 대상군별 교육체계 설계 → 자격 인증까지 연결해야
+                <span class="highlight">실질적인 AI 활용 인재</span>가 만들어집니다.
+              </p>
+            </div>
+            <div class="service-col">
+              <ul class="point-list">
+                <li>기초~전문가 수준별 자격등급 설계</li>
+                <li>대상군별 모듈화된 교육 프레임워크</li>
+                <li>사내 AI 자격 보유율 → 측정 가능한 성과 연결</li>
+              </ul>
+              <div class="cta-wrap">
+                <a href="contact.html?type=역량현황%20진단하기" class="cta-btn">역량현황 진단하기</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-grid">
+            <div class="service-col service-left">
+              <div class="service-no">03</div>
+              <h3 class="service-name">AI 역량모델링</h3>
+              <div class="service-target">인사·조직개발(OD) 담당자</div>
+            </div>
+            <div class="service-col">
+              <div class="quote-wrap">
+                <div class="quote-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path class="icon-stroke" d="M12 3v6"></path>
+                    <path class="icon-stroke" d="M12 15v6"></path>
+                    <path class="icon-stroke" d="M3 12h6"></path>
+                    <path class="icon-stroke" d="M15 12h6"></path>
+                    <circle class="icon-stroke" cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </div>
+                <p class="service-quote">"AI 시대에 우리 조직에 필요한 역량이 무엇인지 정의되어 있지 않다면"</p>
+              </div>
+              <div class="service-divider"></div>
+              <p class="service-body">
+                역량모델 없이 교육하면 방향이 없고, 평가하면 기준이 없습니다. 직무분석 → 인터뷰·설문 기반 핵심역량 도출 →
+                행동지표 개발까지 <span class="highlight">과학적으로</span> 설계합니다.
+              </p>
+            </div>
+            <div class="service-col">
+              <ul class="point-list">
+                <li>KSA(지식·기술·능력) 기반 구조화 방법론</li>
+                <li>역량사전 + 활용 목적별 가이드 산출물 제공</li>
+                <li>역량군·핵심역량·하위역량 계층화 설계</li>
+              </ul>
+              <div class="cta-wrap">
+                <a href="contact.html?type=역량기준%20함께%20설계하기" class="cta-btn">역량기준 함께 설계하기</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-grid">
+            <div class="service-col service-left">
+              <div class="service-no">04</div>
+              <h3 class="service-name">AI 교육과정개발</h3>
+              <div class="service-target"><span class="underline">교육기관, 훈련기관, 기업 교육팀</span></div>
+            </div>
+            <div class="service-col">
+              <div class="quote-wrap">
+                <div class="quote-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path class="icon-stroke" d="M4 6h16v12H4z"></path>
+                    <path class="icon-stroke" d="M8 10h8"></path>
+                    <path class="icon-stroke" d="M8 14h5"></path>
+                  </svg>
+                </div>
+                <p class="service-quote">"AI 교육과정을 만들었지만, 현장 적용이 안 된다면"</p>
+              </div>
+              <div class="service-divider"></div>
+              <p class="service-body">
+                좋은 교육은 요구분석에서 시작됩니다. 학습자·이해관계자 인터뷰로 역량 격차를 파악하고, KSA 기반 목표 설정 →
+                강의·실습·PBL 혼합 설계 → 파일럿 검증까지 제공합니다.
+              </p>
+            </div>
+            <div class="service-col">
+              <ul class="point-list">
+                <li>기초·심화·적용 단계별 학습경로 설계</li>
+                <li>교안·슬라이드·평가도구·루브릭 일괄 개발</li>
+                <li>파일럿 운영 및 피드백 반영 포함</li>
+              </ul>
+              <div class="cta-wrap">
+                <a href="contact.html?type=개발범위,%20비용상담" class="cta-btn">개발범위, 비용상담</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-grid">
+            <div class="service-col service-left">
+              <div class="service-no">05</div>
+              <h3 class="service-name">AI 데이터 분석 및<br>모델개발</h3>
+              <div class="service-target">데이터 기반 의사결정이 필요한 조직</div>
+            </div>
+            <div class="service-col">
+              <div class="quote-wrap">
+                <div class="quote-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path class="icon-stroke" d="M4 18h16"></path>
+                    <path class="icon-stroke" d="M7 15V9"></path>
+                    <path class="icon-stroke" d="M12 15V6"></path>
+                    <path class="icon-stroke" d="M17 15v-3"></path>
+                  </svg>
+                </div>
+                <p class="service-quote">"데이터는 있는데, AI로 어떻게 연결해야 할지 모르겠다면"</p>
+              </div>
+              <div class="service-divider"></div>
+              <p class="service-body">
+                데이터가 있다고 AI가 되지 않습니다. 해결 가능한 문제 정의 → 전처리 → ML/DL 모델 개발 → 정합성 검증·배포까지,
+                현장에서 작동하는 <span class="highlight">AI 모델</span>을 구축합니다.
+              </p>
+            </div>
+            <div class="service-col">
+              <ul class="point-list">
+                <li>문제정의~배포까지 5단계 완결 구조</li>
+                <li>교차검증·성능평가·정밀도 확인 포함</li>
+                <li>머신러닝/딥러닝 알고리즘 최적 선택</li>
+              </ul>
+              <div class="cta-wrap">
+                <a href="contact.html?type=보유%20데이터%20진단받기" class="cta-btn">보유 데이터 진단받기</a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.getElementById("wooriConsultingServiceSectionV2");
+        if (!root || root.getAttribute("data-init") === "true") return;
+        root.setAttribute("data-init", "true");
+
+        var targets = root.querySelectorAll(".title-reveal");
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in");
+            } else {
+              entry.target.classList.remove("in");
+            }
+          });
+        }, {
+          threshold: 0.18,
+          rootMargin: "0px 0px -10% 0px"
+        });
+
+        targets.forEach(function(el) {
+          io.observe(el);
+        });
+      })();
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>문의하기</title>
+</head>
+<body style="margin:0;">
+  <div id="wooriConsultContactPageV1">
+    <style>
+      #wooriConsultContactPageV1 {
+        --main-blue: #3868f4;
+        --main-navy: #0000a3;
+        --accent-orange: #e78f4a;
+        --bg-1: #f6f8fc;
+        --bg-2: #eef3ff;
+        --surface: rgba(255,255,255,0.8);
+        --text-main: #111111;
+        --text-sub: #5f6470;
+        --text-soft: #7f8696;
+        --line: rgba(56,104,244,0.14);
+        --line-strong: rgba(56,104,244,0.24);
+
+        font-family: "Pretendard", "Noto Sans KR", sans-serif;
+        min-height: 100vh;
+        padding: 72px 24px 80px;
+        background:
+          radial-gradient(circle at 14% 18%, rgba(56,104,244,0.08), transparent 20%),
+          radial-gradient(circle at 86% 82%, rgba(231,143,74,0.06), transparent 18%),
+          linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        color: var(--text-main);
+        box-sizing: border-box;
+        overflow: hidden;
+        position: relative;
+        isolation: isolate;
+      }
+
+      #wooriConsultContactPageV1 * {
+        box-sizing: border-box;
+        word-break: keep-all;
+      }
+
+      #wooriConsultContactPageV1::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(56,104,244,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(56,104,244,0.03) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: radial-gradient(circle at center, black 34%, transparent 84%);
+        -webkit-mask-image: radial-gradient(circle at center, black 34%, transparent 84%);
+        opacity: 0.52;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      #wooriConsultContactPageV1 .contact-wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 32px;
+        position: relative;
+        z-index: 1;
+      }
+
+      #wooriConsultContactPageV1 .contact-side,
+      #wooriConsultContactPageV1 .contact-form-card {
+        position: relative;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.76) 100%);
+        box-shadow: 0 14px 32px rgba(17,17,17,0.04);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        overflow: hidden;
+      }
+
+      #wooriConsultContactPageV1 .contact-side::before,
+      #wooriConsultContactPageV1 .contact-form-card::before {
+        content: "";
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        top: 0;
+        height: 4px;
+        border-radius: 0 0 999px 999px;
+        background: linear-gradient(90deg, var(--main-blue), var(--accent-orange));
+      }
+
+      #wooriConsultContactPageV1 .contact-side {
+        padding: 40px 30px;
+      }
+
+      #wooriConsultContactPageV1 .contact-form-card {
+        padding: 40px 34px 44px;
+      }
+
+      #wooriConsultContactPageV1 .contact-title {
+        margin: 0;
+        font-size: clamp(32px, 3vw, 44px);
+        line-height: 1.28;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        color: var(--text-main);
+      }
+
+      #wooriConsultContactPageV1 .contact-mail {
+        display: inline-block;
+        margin-top: 24px;
+        padding: 14px 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(56,104,244,0.16);
+        background: rgba(255,255,255,0.88);
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--main-navy);
+        text-decoration: none;
+        box-shadow: 0 10px 22px rgba(17,17,17,0.04);
+      }
+
+      #wooriConsultContactPageV1 .field-group {
+        margin-bottom: 20px;
+      }
+
+      #wooriConsultContactPageV1 .field-label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 14px;
+        line-height: 1.4;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: var(--text-main);
+      }
+
+      #wooriConsultContactPageV1 .text-input,
+      #wooriConsultContactPageV1 .select-input,
+      #wooriConsultContactPageV1 .textarea-input {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.9);
+        color: var(--text-main);
+        font-family: inherit;
+        font-size: 15px;
+        letter-spacing: -0.03em;
+        outline: none;
+        transition: border-color .2s ease, box-shadow .2s ease;
+      }
+
+      #wooriConsultContactPageV1 .text-input:focus,
+      #wooriConsultContactPageV1 .select-input:focus,
+      #wooriConsultContactPageV1 .textarea-input:focus {
+        border-color: var(--line-strong);
+        box-shadow: 0 0 0 4px rgba(56,104,244,0.08);
+      }
+
+      #wooriConsultContactPageV1 .text-input,
+      #wooriConsultContactPageV1 .select-input {
+        height: 48px;
+        padding: 0 16px;
+      }
+
+      #wooriConsultContactPageV1 .textarea-input {
+        min-height: 180px;
+        padding: 16px;
+        resize: vertical;
+        line-height: 1.7;
+      }
+
+      #wooriConsultContactPageV1 .select-input {
+        appearance: none;
+        background-image:
+          linear-gradient(45deg, transparent 50%, #7f8696 50%),
+          linear-gradient(135deg, #7f8696 50%, transparent 50%);
+        background-position:
+          calc(100% - 22px) 19px,
+          calc(100% - 14px) 19px;
+        background-size: 8px 8px, 8px 8px;
+        background-repeat: no-repeat;
+      }
+
+      #wooriConsultContactPageV1 .select-input option {
+        color: #111111;
+      }
+
+      #wooriConsultContactPageV1 .text-input::placeholder,
+      #wooriConsultContactPageV1 .textarea-input::placeholder {
+        color: #b0b6c3;
+      }
+
+      #wooriConsultContactPageV1 .row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      #wooriConsultContactPageV1 .tel-row {
+        display: grid;
+        grid-template-columns: 140px 1fr 1fr;
+        gap: 14px;
+        align-items: center;
+      }
+
+      #wooriConsultContactPageV1 .email-row {
+        display: grid;
+        grid-template-columns: 1fr 24px 1fr 170px;
+        gap: 12px;
+        align-items: center;
+      }
+
+      #wooriConsultContactPageV1 .email-at {
+        text-align: center;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-soft);
+      }
+
+      #wooriConsultContactPageV1 .check-line,
+      #wooriConsultContactPageV1 .agree-all,
+      #wooriConsultContactPageV1 .agree-item label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--text-sub);
+        cursor: pointer;
+      }
+
+      #wooriConsultContactPageV1 input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        accent-color: var(--main-blue);
+        cursor: pointer;
+      }
+
+      #wooriConsultContactPageV1 .file-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 110px;
+        gap: 10px;
+      }
+
+      #wooriConsultContactPageV1 .file-name {
+        display: flex;
+        align-items: center;
+        height: 48px;
+        padding: 0 16px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.9);
+        color: var(--text-soft);
+        font-size: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      #wooriConsultContactPageV1 .file-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        border: 1px solid rgba(56,104,244,0.16);
+        border-radius: 16px;
+        background: #ffffff;
+        color: var(--text-main);
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 22px rgba(17,17,17,0.04);
+      }
+
+      #wooriConsultContactPageV1 .file-input {
+        display: none;
+      }
+
+      #wooriConsultContactPageV1 .file-guide {
+        margin: 8px 0 0;
+        font-size: 12px;
+        color: var(--text-soft);
+      }
+
+      #wooriConsultContactPageV1 .agree-box {
+        margin-top: 32px;
+      }
+
+      #wooriConsultContactPageV1 .agree-list {
+        margin: 18px 0 0 24px;
+        display: grid;
+        gap: 12px;
+      }
+
+      #wooriConsultContactPageV1 .agree-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 350px;
+        gap: 16px;
+      }
+
+      #wooriConsultContactPageV1 .terms-link {
+        color: var(--main-blue);
+        font-size: 13px;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        white-space: nowrap;
+      }
+
+      #wooriConsultContactPageV1 .submit-btn {
+        margin-top: 42px;
+        width: 180px;
+        height: 54px;
+        border: 1px solid rgba(56,104,244,0.16);
+        border-radius: 16px;
+        background: linear-gradient(90deg, var(--main-blue), var(--main-navy));
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        cursor: pointer;
+        box-shadow: 0 16px 28px rgba(56,104,244,0.18);
+      }
+
+      #wooriConsultContactPageV1 .submit-btn:disabled {
+        opacity: 0.7;
+        cursor: progress;
+      }
+
+      @media (max-width: 960px) {
+        #wooriConsultContactPageV1 {
+          padding: 54px 20px 64px;
+        }
+
+        #wooriConsultContactPageV1 .contact-wrap {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        #wooriConsultContactPageV1 .contact-side,
+        #wooriConsultContactPageV1 .contact-form-card {
+          padding: 32px 24px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        #wooriConsultContactPageV1 {
+          padding: 42px 16px 56px;
+        }
+
+        #wooriConsultContactPageV1 .row-2,
+        #wooriConsultContactPageV1 .tel-row,
+        #wooriConsultContactPageV1 .email-row,
+        #wooriConsultContactPageV1 .file-row {
+          grid-template-columns: 1fr;
+        }
+
+        #wooriConsultContactPageV1 .email-at {
+          display: none;
+        }
+
+        #wooriConsultContactPageV1 .agree-list {
+          margin-left: 0;
+        }
+
+        #wooriConsultContactPageV1 .submit-btn {
+          width: 100%;
+        }
+      }
+    </style>
+
+    <div class="contact-wrap">
+      <div class="contact-side">
+        <h1 class="contact-title">우리 조직과 구성원의 성장<br />KMA와 함께 하세요!</h1>
+        <a href="mailto:contact@kma.or.kr" class="contact-mail">contact@kma.or.kr</a>
+      </div>
+
+      <form id="wooriConsultInquiryForm" class="contact-form-card" enctype="multipart/form-data">
+        <div class="field-group">
+          <label class="field-label" for="inquiryType">문의구분 *</label>
+          <select id="inquiryType" name="inquiryType" class="select-input" required>
+            <option value="">선택해주세요</option>
+            <option value="AI 전략수립">AI 전략수립</option>
+            <option value="AI 사내 자격인증">AI 사내 자격인증</option>
+            <option value="AI 역량모델링">AI 역량모델링</option>
+            <option value="AI 교육과정개발">AI 교육과정개발</option>
+            <option value="AI 데이터 분석 및 모델개발">AI 데이터 분석 및 모델개발</option>
+          </select>
+        </div>
+
+        <div class="row-2">
+          <div class="field-group">
+            <label class="field-label" for="userName">이름 *</label>
+            <input type="text" id="userName" name="userName" class="text-input" required />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="companyName">회사(소속) *</label>
+            <input type="text" id="companyName" name="companyName" class="text-input" required />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">연락처 *</label>
+          <div class="tel-row">
+            <select id="telFirst" name="telFirst" class="select-input" required>
+              <option value="">선택</option>
+              <option value="010">010</option>
+              <option value="011">011</option>
+              <option value="016">016</option>
+              <option value="017">017</option>
+              <option value="018">018</option>
+              <option value="019">019</option>
+              <option value="02">02</option>
+              <option value="031">031</option>
+              <option value="032">032</option>
+              <option value="042">042</option>
+              <option value="051">051</option>
+            </select>
+            <input type="text" id="telMiddle" name="telMiddle" class="text-input" maxlength="4" inputmode="numeric" required />
+            <input type="text" id="telLast" name="telLast" class="text-input" maxlength="4" inputmode="numeric" required />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">이메일 *</label>
+          <div class="email-row">
+            <input type="text" id="emailId" name="emailId" class="text-input" placeholder="이메일" required />
+            <span class="email-at">@</span>
+            <input type="text" id="emailDomain" name="emailDomain" class="text-input" placeholder="직접입력" required />
+            <select id="emailDomainSelect" class="select-input">
+              <option value="">직접입력</option>
+              <option value="naver.com">naver.com</option>
+              <option value="gmail.com">gmail.com</option>
+              <option value="daum.net">daum.net</option>
+              <option value="kakao.com">kakao.com</option>
+              <option value="hanmail.net">hanmail.net</option>
+              <option value="nate.com">nate.com</option>
+            </select>
+          </div>
+          <label class="check-line">
+            <input type="checkbox" id="replyMailAgree" name="replyMailAgree" value="Y" checked />
+            답변내용을 메일로 받겠습니다.
+          </label>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="department">부서</label>
+          <input type="text" id="department" name="department" class="text-input" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="position">직급</label>
+          <input type="text" id="position" name="position" class="text-input" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="subject">문의제목 *</label>
+          <input type="text" id="subject" name="subject" class="text-input" required />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="message">문의내용 *</label>
+          <textarea id="message" name="message" class="textarea-input" required></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">파일첨부</label>
+          <div class="file-row">
+            <div class="file-name" id="fileNameText">선택된 파일이 없습니다.</div>
+            <label class="file-btn" for="attachFile">파일첨부</label>
+          </div>
+          <input type="file" id="attachFile" name="attachFile" class="file-input" accept=".zip,.pdf,.hwp,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" />
+          <p class="file-guide">* 최대 15MB / zip, pdf, hwp, ppt, pptx, doc, docx, xls, xlsx, jpg, jpeg, png</p>
+        </div>
+
+        <div class="agree-box">
+          <label class="agree-all">
+            <input type="checkbox" id="agreeAll" />
+            전체이용약관에 동의합니다.
+          </label>
+
+          <div class="agree-list">
+            <div class="agree-item">
+              <label>
+                <input type="checkbox" class="agree-check required-agree" id="agreeService" required />
+                서비스 이용약관 동의(필수)
+              </label>
+              <a href="#" class="terms-link">약관보기</a>
+            </div>
+            <div class="agree-item">
+              <label>
+                <input type="checkbox" class="agree-check required-agree" id="agreePrivacy" required />
+                개인정보 처리방침 동의(필수)
+              </label>
+              <a href="#" class="terms-link">약관보기</a>
+            </div>
+            <div class="agree-item">
+              <label>
+                <input type="checkbox" class="agree-check" id="agreeMarketing" />
+                마케팅 수신동의(선택)
+              </label>
+              <a href="#" class="terms-link">약관보기</a>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">문의하기</button>
+      </form>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.getElementById("wooriConsultContactPageV1");
+        var params = new URLSearchParams(window.location.search);
+        var inquiryType = root.querySelector("#inquiryType");
+        var selectedType = params.get("type");
+        var emailDomainSelect = root.querySelector("#emailDomainSelect");
+        var emailDomain = root.querySelector("#emailDomain");
+        var attachFile = root.querySelector("#attachFile");
+        var fileNameText = root.querySelector("#fileNameText");
+        var agreeAll = root.querySelector("#agreeAll");
+        var agreeChecks = root.querySelectorAll(".agree-check");
+        var form = root.querySelector("#wooriConsultInquiryForm");
+        var submitBtn = root.querySelector(".submit-btn");
+
+        if (selectedType) {
+          var typeMap = {
+            "문의하기": "AI 전략수립",
+            "역량현황 진단하기": "AI 사내 자격인증",
+            "역량기준 함께 설계하기": "AI 역량모델링",
+            "개발범위, 비용상담": "AI 교육과정개발",
+            "보유 데이터 진단받기": "AI 데이터 분석 및 모델개발"
+          };
+
+          inquiryType.value = typeMap[selectedType] || selectedType;
+        }
+
+        emailDomainSelect.addEventListener("change", function () {
+          emailDomain.value = this.value;
+          emailDomain.readOnly = !!this.value;
+          if (!this.value) {
+            emailDomain.focus();
+          }
+        });
+
+        attachFile.addEventListener("change", function () {
+          var file = this.files && this.files[0];
+
+          if (!file) {
+            fileNameText.textContent = "선택된 파일이 없습니다.";
+            return;
+          }
+
+          if (file.size > 15 * 1024 * 1024) {
+            alert("첨부파일은 최대 15MB까지 업로드할 수 있습니다.");
+            this.value = "";
+            fileNameText.textContent = "선택된 파일이 없습니다.";
+            return;
+          }
+
+          fileNameText.textContent = file.name;
+        });
+
+        agreeAll.addEventListener("change", function () {
+          agreeChecks.forEach(function (check) {
+            check.checked = agreeAll.checked;
+          });
+        });
+
+        agreeChecks.forEach(function (check) {
+          check.addEventListener("change", function () {
+            var allChecked = true;
+            agreeChecks.forEach(function (item) {
+              if (!item.checked) {
+                allChecked = false;
+              }
+            });
+            agreeAll.checked = allChecked;
+          });
+        });
+
+        function onlyNumber(value) {
+          return value.replace(/[^0-9]/g, "");
+        }
+
+        root.querySelector("#telMiddle").addEventListener("input", function () {
+          this.value = onlyNumber(this.value);
+        });
+
+        root.querySelector("#telLast").addEventListener("input", function () {
+          this.value = onlyNumber(this.value);
+        });
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          if (!root.querySelector("#agreeService").checked || !root.querySelector("#agreePrivacy").checked) {
+            alert("필수 약관에 동의해주세요.");
+            return;
+          }
+
+          var formData = new FormData();
+          formData.append("inquiryType", inquiryType.value);
+          formData.append("userName", root.querySelector("#userName").value);
+          formData.append("companyName", root.querySelector("#companyName").value);
+          formData.append("phone", root.querySelector("#telFirst").value + "-" + root.querySelector("#telMiddle").value + "-" + root.querySelector("#telLast").value);
+          formData.append("email", root.querySelector("#emailId").value + "@" + root.querySelector("#emailDomain").value);
+          formData.append("replyMailAgree", root.querySelector("#replyMailAgree").checked ? "Y" : "N");
+          formData.append("department", root.querySelector("#department").value);
+          formData.append("position", root.querySelector("#position").value);
+          formData.append("subject", root.querySelector("#subject").value);
+          formData.append("message", root.querySelector("#message").value);
+          formData.append("agreeService", root.querySelector("#agreeService").checked ? "Y" : "N");
+          formData.append("agreePrivacy", root.querySelector("#agreePrivacy").checked ? "Y" : "N");
+          formData.append("agreeMarketing", root.querySelector("#agreeMarketing").checked ? "Y" : "N");
+
+          if (attachFile.files && attachFile.files[0]) {
+            formData.append("attachFile", attachFile.files[0]);
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "전송중...";
+
+          fetch("/api/consulting-mail", {
+            method: "POST",
+            body: formData
+          })
+            .then(function (res) {
+              if (!res.ok) {
+                throw new Error("문의 전송 중 오류가 발생했습니다.");
+              }
+              alert("문의가 정상적으로 접수되었습니다.");
+              form.reset();
+              fileNameText.textContent = "선택된 파일이 없습니다.";
+              emailDomain.readOnly = false;
+            })
+            .catch(function (error) {
+              alert(error.message || "문의 전송 중 오류가 발생했습니다.");
+            })
+            .finally(function () {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "문의하기";
+            });
+        });
+      })();
+    </script>
+  </div>
+</body>
+</html>
