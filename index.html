@@ -1636,13 +1636,20 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
             body: formData
           })
             .then(function(res) {
-              if (!res.ok) {
-                throw new Error("문의 전송 중 오류가 발생했습니다.");
-              }
-              alert("문의가 정상적으로 접수되었습니다.");
-              modalForm.reset();
-              modalFileName.textContent = "선택된 파일이 없습니다.";
-              closeConsultModal();
+              return res.json()
+                .catch(function() {
+                  return {};
+                })
+                .then(function(data) {
+                  if (!res.ok) {
+                    throw new Error(data.message || "문의 전송 중 오류가 발생했습니다.");
+                  }
+
+                  alert(data.message || "문의가 정상적으로 접수되었습니다.");
+                  modalForm.reset();
+                  modalFileName.textContent = "선택된 파일이 없습니다.";
+                  closeConsultModal();
+                });
             })
             .catch(function(error) {
               alert(error.message || "문의 전송 중 오류가 발생했습니다.");
