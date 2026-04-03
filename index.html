@@ -908,12 +908,12 @@
 
               <div>
                 <label class="consult-label" for="modalPhone">연락처 *</label>
-                <input type="text" id="modalPhone" name="phone" class="consult-input" placeholder="010-0000-0000" required>
+                <input type="tel" id="modalPhone" name="phone" class="consult-input" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
               </div>
 
               <div>
                 <label class="consult-label" for="modalEmail">이메일 *</label>
-                <input type="email" id="modalEmail" name="email" class="consult-input" required>
+                <input type="email" id="modalEmail" name="email" class="consult-input" placeholder="example@domain.com" required>
               </div>
 
               <div>
@@ -1537,6 +1537,37 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
           modalFileName.textContent = file.name;
         });
 
+        function formatPhoneNumber(value) {
+          var numbers = value.replace(/[^0-9]/g, "").slice(0, 11);
+
+          if (numbers.indexOf("02") === 0) {
+            if (numbers.length <= 2) return numbers;
+            if (numbers.length <= 6) return numbers.slice(0, 2) + "-" + numbers.slice(2);
+            if (numbers.length <= 10) return numbers.slice(0, 2) + "-" + numbers.slice(2, numbers.length - 4) + "-" + numbers.slice(-4);
+            return numbers.slice(0, 2) + "-" + numbers.slice(2, 7) + "-" + numbers.slice(7, 11);
+          }
+
+          if (numbers.length <= 3) return numbers;
+          if (numbers.length <= 7) return numbers.slice(0, 3) + "-" + numbers.slice(3);
+          return numbers.slice(0, 3) + "-" + numbers.slice(3, numbers.length - 4) + "-" + numbers.slice(-4);
+        }
+
+        function isValidPhoneNumber(value) {
+          return /^(01[016789]-\d{3,4}-\d{4}|0[2-9]\d?-\d{3,4}-\d{4})$/.test(value);
+        }
+
+        function isValidEmail(value) {
+          return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
+        }
+
+        root.querySelector("#modalPhone").addEventListener("input", function() {
+          this.value = formatPhoneNumber(this.value);
+        });
+
+        root.querySelector("#modalEmail").addEventListener("input", function() {
+          this.value = this.value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣\s]/g, "");
+        });
+
         modalAgreeAll.addEventListener("change", function() {
           modalAgreeChecks.forEach(function(check) {
             check.checked = modalAgreeAll.checked;
@@ -1563,12 +1594,27 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
             return;
           }
 
+          var phoneValue = root.querySelector("#modalPhone").value.trim();
+          var emailValue = root.querySelector("#modalEmail").value.trim();
+
+          if (!isValidPhoneNumber(phoneValue)) {
+            alert("연락처를 올바른 형식으로 입력해주세요. 예: 010-1234-5678");
+            root.querySelector("#modalPhone").focus();
+            return;
+          }
+
+          if (!isValidEmail(emailValue)) {
+            alert("이메일을 올바른 형식으로 입력해주세요. 예: name@example.com");
+            root.querySelector("#modalEmail").focus();
+            return;
+          }
+
           var formData = new FormData();
           formData.append("inquiryType", modalInquiryType.value);
           formData.append("userName", root.querySelector("#modalUserName").value);
           formData.append("companyName", root.querySelector("#modalCompanyName").value);
-          formData.append("phone", root.querySelector("#modalPhone").value);
-          formData.append("email", root.querySelector("#modalEmail").value);
+          formData.append("phone", phoneValue);
+          formData.append("email", emailValue);
           formData.append("replyMailAgree", "Y");
           formData.append("department", root.querySelector("#modalDepartment").value);
           formData.append("position", root.querySelector("#modalPosition").value);

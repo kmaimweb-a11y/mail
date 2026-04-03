@@ -37,8 +37,19 @@ app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) =
       agreeMarketing
     } = body;
 
+    const phonePattern = /^(01[016789]-\d{3,4}-\d{4}|0[2-9]\d?-\d{3,4}-\d{4})$/;
+    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
     if (!inquiryType || !userName || !companyName || !phone || !email || !subject || !message) {
       return res.status(400).json({ message: "필수 입력값이 누락되었습니다." });
+    }
+
+    if (!phonePattern.test(phone)) {
+      return res.status(400).json({ message: "연락처 형식이 올바르지 않습니다." });
+    }
+
+    if (!emailPattern.test(email)) {
+      return res.status(400).json({ message: "이메일 형식이 올바르지 않습니다." });
     }
 
     if (agreeService !== "Y" || agreePrivacy !== "Y") {
