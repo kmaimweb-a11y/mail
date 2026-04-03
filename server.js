@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const multer = require("multer");
 const nodemailer = require("nodemailer");
 const path = require("path");
@@ -15,6 +16,7 @@ const upload = multer({
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
+app.use(cors());
 
 app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) => {
   try {
