@@ -2,8 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
 const nodemailer = require("nodemailer");
+const dns = require("dns");
 const path = require("path");
 require("dotenv").config();
+
+dns.setDefaultResultOrder("ipv4first");
 
 const app = express();
 const upload = multer({
@@ -60,6 +63,10 @@ app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) =
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT || 587),
       secure: process.env.SMTP_SECURE === "true",
+      family: 4,
+      connectionTimeout: 20000,
+      greetingTimeout: 20000,
+      socketTimeout: 30000,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
