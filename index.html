@@ -908,12 +908,12 @@
 
               <div>
                 <label class="consult-label" for="modalPhone">연락처 *</label>
-                <input type="tel" id="modalPhone" name="phone" class="consult-input" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
+                <input type="tel" id="modalPhone" name="phone" class="consult-input" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" pattern="01[016789]-\d{3,4}-\d{4}|0[2-9]\d?-\d{3,4}-\d{4}" title="연락처는 010-1234-5678 형식으로 입력해주세요." required>
               </div>
 
               <div>
                 <label class="consult-label" for="modalEmail">이메일 *</label>
-                <input type="email" id="modalEmail" name="email" class="consult-input" placeholder="example@domain.com" required>
+                <input type="email" id="modalEmail" name="email" class="consult-input" placeholder="example@domain.com" pattern="[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" title="이메일은 name@example.com 형식으로 입력해주세요." required>
               </div>
 
               <div>
@@ -1560,6 +1560,14 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
           return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
         }
 
+        function showFieldAlert(message, selector) {
+          alert(message);
+          var field = root.querySelector(selector);
+          if (field) {
+            field.focus();
+          }
+        }
+
         root.querySelector("#modalPhone").addEventListener("input", function() {
           this.value = formatPhoneNumber(this.value);
         });
@@ -1589,23 +1597,36 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
         modalForm.addEventListener("submit", function(event) {
           event.preventDefault();
 
-          if (!root.querySelector("#modalAgreeService").checked || !root.querySelector("#modalAgreePrivacy").checked) {
-            alert("필수 약관에 동의해주세요.");
+          var phoneInput = root.querySelector("#modalPhone");
+          var emailInput = root.querySelector("#modalEmail");
+          var phoneValue = formatPhoneNumber(phoneInput.value.trim());
+          var emailValue = emailInput.value.trim();
+
+          phoneInput.value = phoneValue;
+          emailInput.value = emailValue;
+
+          if (!phoneValue) {
+            showFieldAlert("연락처를 입력해주세요.", "#modalPhone");
             return;
           }
 
-          var phoneValue = root.querySelector("#modalPhone").value.trim();
-          var emailValue = root.querySelector("#modalEmail").value.trim();
-
           if (!isValidPhoneNumber(phoneValue)) {
-            alert("연락처를 올바른 형식으로 입력해주세요. 예: 010-1234-5678");
-            root.querySelector("#modalPhone").focus();
+            showFieldAlert("연락처 형식이 올바르지 않습니다. 예: 010-1234-5678", "#modalPhone");
+            return;
+          }
+
+          if (!emailValue) {
+            showFieldAlert("이메일을 입력해주세요.", "#modalEmail");
             return;
           }
 
           if (!isValidEmail(emailValue)) {
-            alert("이메일을 올바른 형식으로 입력해주세요. 예: name@example.com");
-            root.querySelector("#modalEmail").focus();
+            showFieldAlert("이메일 형식이 올바르지 않습니다. 예: name@example.com", "#modalEmail");
+            return;
+          }
+
+          if (!root.querySelector("#modalAgreeService").checked || !root.querySelector("#modalAgreePrivacy").checked) {
+            alert("필수 약관에 동의해주세요.");
             return;
           }
 
@@ -1650,10 +1671,18 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
                   modalFileName.textContent = "선택된 파일이 없습니다.";
                   closeConsultModal();
                 });
-            })
-            .catch(function(error) {
-              alert(error.message || "문의 전송 중 오류가 발생했습니다.");
-            })
+              })
+              .catch(function(error) {
+              var fallbackMessage = "문의 전송 중 오류가 발생했습니다.";
+
+              if (!isValidPhoneNumber(root.querySelector("#modalPhone").value.trim())) {
+                fallbackMessage = "연락처 형식이 올바르지 않습니다. 예: 010-1234-5678";
+              } else if (!isValidEmail(root.querySelector("#modalEmail").value.trim())) {
+                fallbackMessage = "이메일 형식이 올바르지 않습니다. 예: name@example.com";
+              }
+
+              alert(error.message || fallbackMessage);
+              })
             .finally(function() {
               modalSubmitBtn.disabled = false;
               modalSubmitBtn.textContent = "문의하기";
