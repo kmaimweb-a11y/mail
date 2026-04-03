@@ -18,6 +18,7 @@ app.use(express.static(__dirname));
 
 app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) => {
   try {
+    const body = req.body || {};
     const {
       inquiryType,
       userName,
@@ -32,7 +33,7 @@ app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) =
       agreeService,
       agreePrivacy,
       agreeMarketing
-    } = req.body;
+    } = body;
 
     if (!inquiryType || !userName || !companyName || !phone || !email || !subject || !message) {
       return res.status(400).json({ message: "필수 입력값이 누락되었습니다." });
