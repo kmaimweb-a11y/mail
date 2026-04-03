@@ -603,7 +603,7 @@
                 <input type="checkbox" class="agree-check" id="agreeMarketing" />
                 마케팅 수신동의(선택)
               </label>
-              <a href="#" class="terms-link">약관보기</a>
+              <button type="button" class="terms-link js-open-marketing-terms">약관보기</button>
             </div>
           </div>
         </div>
@@ -997,6 +997,23 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
       </div>
     </div>
 
+    <div class="terms-modal" id="marketingTermsModal" aria-hidden="true">
+      <div class="terms-dialog" role="dialog" aria-modal="true" aria-labelledby="marketingTermsTitle">
+        <div class="terms-header">
+          <h3 class="terms-title" id="marketingTermsTitle">마케팅 수신동의</h3>
+          <button type="button" class="terms-close-btn js-close-marketing-terms" aria-label="약관 닫기">×</button>
+        </div>
+        <div class="terms-body">
+          <h4>마케팅정보 수신동의</h4>
+          <p>개인정보보호법 제22조 제4항에 의해 선택정보 사항에 대해서는 기재하지 않으셔도 서비스를 이용하실 수 있습니다.</p>
+          <h4>1. 마케팅 및 광고에의 활용</h4>
+          <p>- 신규 서비스(제품) 개발 및 맞춤 서비스 제공, 이벤트 및 광고성 정보 제공 및 참여기회 제공, 인구통계학적 특성에 따른 서비스 제공 및 광고 게재, 서비스의 유효성 확인, 접속빈도 파악 또는 회원의 서비스 이용에 대한 통계 등을 목적으로 개인정보를 처리합니다</p>
+          <h4>2. 안내성 정보 제공</h4>
+          <p>협회는 서비스를 운용함에 있어 각종 정보를 서비스 화면, 전화, 전자우편(E-mail), SMS, 우편물 등의 방법으로 서비스 회원에게 제공할 수 있으며, 포인트 적립 및 소진/소멸 등, 의무적으로 안내되어야 하는 정보성 내용은 수신동의 여부와 무관하게 제공됩니다.</p>
+        </div>
+      </div>
+    </div>
+
     <script>
       (function () {
         var root = document.getElementById("wooriConsultContactPageV1");
@@ -1017,6 +1034,9 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
         var privacyTermsModal = root.querySelector("#privacyTermsModal");
         var openPrivacyTermsBtn = root.querySelector(".js-open-privacy-terms");
         var closePrivacyTermsBtn = root.querySelector(".js-close-privacy-terms");
+        var marketingTermsModal = root.querySelector("#marketingTermsModal");
+        var openMarketingTermsBtn = root.querySelector(".js-open-marketing-terms");
+        var closeMarketingTermsBtn = root.querySelector(".js-close-marketing-terms");
 
         if (selectedType) {
           var typeMap = {
@@ -1135,6 +1155,32 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
         document.addEventListener("keydown", function (event) {
           if (event.key === "Escape" && privacyTermsModal.classList.contains("is-open")) {
             closePrivacyTermsModal();
+          }
+        });
+
+        function openMarketingTermsModal() {
+          marketingTermsModal.classList.add("is-open");
+          marketingTermsModal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("terms-modal-open");
+        }
+
+        function closeMarketingTermsModal() {
+          marketingTermsModal.classList.remove("is-open");
+          marketingTermsModal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("terms-modal-open");
+        }
+
+        openMarketingTermsBtn.addEventListener("click", openMarketingTermsModal);
+        closeMarketingTermsBtn.addEventListener("click", closeMarketingTermsModal);
+        marketingTermsModal.addEventListener("click", function (event) {
+          if (event.target === marketingTermsModal) {
+            closeMarketingTermsModal();
+          }
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && marketingTermsModal.classList.contains("is-open")) {
+            closeMarketingTermsModal();
           }
         });
 
