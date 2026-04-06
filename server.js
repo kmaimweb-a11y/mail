@@ -1,12 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
-const nodemailer = require("nodemailer");
-const dns = require("dns");
 const path = require("path");
 require("dotenv").config();
-
-dns.setDefaultResultOrder("ipv4first");
 
 const app = express();
 const upload = multer({
@@ -59,20 +55,6 @@ app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) =
       return res.status(400).json({ message: "필수 약관 동의가 필요합니다." });
     }
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: process.env.SMTP_SECURE === "true",
-      family: 4,
-      connectionTimeout: 20000,
-      greetingTimeout: 20000,
-      socketTimeout: 30000,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-      }
-    });
-
     const mailHtml = `
       <div style="font-family:Pretendard,Noto Sans KR,sans-serif;line-height:1.7;color:#111;">
         <h2 style="margin:0 0 20px;">AI 컨설팅 문의 접수</h2>
@@ -94,21 +76,40 @@ app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) =
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `"AI 컨설팅 문의" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-      to: process.env.MAIL_TO,
-      replyTo: email,
+    if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM || !process.env.MAIL_TO) {
+      return res.status(500).json({ message: "메일 API 환경변수가 설정되지 않았습니다." });
+    }
+
+    const resendPayload = {
+      from: process.env.RESEND_FROM,
+      to: [process.env.MAIL_TO],
+      reply_to: email,
       subject: `[AI 컨설팅 문의] ${subject}`,
       html: mailHtml,
       attachments: req.file
         ? [
             {
               filename: req.file.originalname,
-              content: req.file.buffer
+              content: req.file.buffer.toString("base64")
             }
           ]
-        : []
+        : undefined
+    };
+
+    const resendResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(resendPayload)
     });
+
+    if (!resendResponse.ok) {
+      const errorText = await resendResponse.text();
+      console.error("mail send error:", errorText);
+      return res.status(500).json({ message: "메일 API 전송에 실패했습니다." });
+    }
 
     return res.status(200).json({ message: "문의가 정상적으로 접수되었습니다." });
   } catch (error) {
