@@ -11,14 +11,50 @@ const upload = multer({
     fileSize: 15 * 1024 * 1024
   }
 });
+const inquiryRateLimitStore = new Map();
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 5;
 
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
 app.use(cors());
 
+function getClientIp(req) {
+  const forwarded = req.headers["x-forwarded-for"];
+
+  if (typeof forwarded === "string" && forwarded.trim()) {
+    return forwarded.split(",")[0].trim();
+  }
+
+  return req.ip || req.connection?.remoteAddress || "unknown";
+}
+
+function isRateLimited(req) {
+  const clientIp = getClientIp(req);
+  const now = Date.now();
+  const windowStart = now - RATE_LIMIT_WINDOW_MS;
+  const requestTimes = inquiryRateLimitStore.get(clientIp) || [];
+  const recentRequests = requestTimes.filter(function(timestamp) {
+    return timestamp > windowStart;
+  });
+
+  if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
+    inquiryRateLimitStore.set(clientIp, recentRequests);
+    return true;
+  }
+
+  recentRequests.push(now);
+  inquiryRateLimitStore.set(clientIp, recentRequests);
+  return false;
+}
+
 app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) => {
   try {
+    if (isRateLimited(req)) {
+      return res.status(429).json({ message: "짧은 시간에 문의를 여러 번 보낼 수 없습니다. 잠시 후 다시 시도해주세요." });
+    }
+
     const body = req.body || {};
     const {
       inquiryType,
@@ -31,6 +67,7 @@ app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) =
       position,
       subject,
       message,
+      website,
       agreeService,
       agreePrivacy,
       agreeMarketing
@@ -41,6 +78,10 @@ app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) =
 
     if (!inquiryType || !userName || !companyName || !phone || !email || !subject || !message) {
       return res.status(400).json({ message: "필수 입력값이 누락되었습니다." });
+    }
+
+    if (website) {
+      return res.status(400).json({ message: "비정상적인 요청이 감지되었습니다." });
     }
 
     if (!phonePattern.test(phone)) {
