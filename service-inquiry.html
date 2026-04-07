@@ -1005,6 +1005,7 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
     <script>
       (function () {
         var root = document.getElementById("wooriConsultContactPageV1");
+        var apiEndpoint = "https://munyihagi.onrender.com/api/consulting-mail";
         var params = new URLSearchParams(window.location.search);
         var selectedType = params.get("type");
         var inquiryType = root.querySelector("#inquiryType");
@@ -1288,7 +1289,7 @@ CPS / 서울 마포구 큰우물로 76 / 02-718-3084
             controller.abort();
           }, 30000);
 
-          fetch("/api/consulting-mail", {
+          fetch(apiEndpoint, {
             method: "POST",
             body: formData,
             signal: controller.signal
