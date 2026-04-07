@@ -37,32 +37,217 @@
       }
 
       #wooriConsultContactPageV1 .launch-wrap {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 24px 16px;
-        background: #ffffff;
-        border-top: 1px solid #dcdcdc;
-        border-bottom: 1px solid #dcdcdc;
+        --footer-bg: #040507;
+        --footer-text-main: rgba(255,255,255,0.96);
+        --footer-text-body: rgba(255,255,255,0.72);
+        --footer-text-soft: rgba(255,255,255,0.46);
+        --footer-blue: #4c74ff;
+
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 20%, rgba(76,116,255,0.14), transparent 24%),
+          radial-gradient(circle at 78% 82%, rgba(110,86,255,0.12), transparent 20%),
+          linear-gradient(180deg, #020304 0%, #050608 100%);
+        padding: 28px 18px 20px;
+        color: var(--footer-text-main);
+      }
+
+      #wooriConsultContactPageV1 .launch-wrap::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+          repeating-linear-gradient(
+            180deg,
+            rgba(255,255,255,0.012) 0px,
+            rgba(255,255,255,0.012) 1px,
+            transparent 1px,
+            transparent 4px
+          );
+        opacity: 0.28;
+        pointer-events: none;
+      }
+
+      #wooriConsultContactPageV1 .launch-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 1320px;
+        margin: 0 auto;
+      }
+
+      #wooriConsultContactPageV1 .launch-top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      #wooriConsultContactPageV1 .launch-brand {
+        display: grid;
+        gap: 12px;
+      }
+
+      #wooriConsultContactPageV1 .launch-logo {
+        display: block;
+        width: min(100%, 310px);
+        height: auto;
+        object-fit: contain;
+      }
+
+      #wooriConsultContactPageV1 .launch-copy {
+        max-width: 440px;
+        font-size: clamp(14px, 1vw, 17px);
+        line-height: 1.55;
+        letter-spacing: -0.03em;
+        color: rgba(255,255,255,0.76);
+        font-weight: 500;
+      }
+
+      #wooriConsultContactPageV1 .launch-cta {
+        display: grid;
+        gap: 12px;
+        justify-items: stretch;
+      }
+
+      #wooriConsultContactPageV1 .launch-title {
+        margin: 0;
+        font-size: clamp(20px, 1.7vw, 30px);
+        line-height: 1.35;
+        letter-spacing: -0.05em;
+        font-weight: 800;
+        color: #ffffff;
+      }
+
+      #wooriConsultContactPageV1 .launch-desc {
+        margin: 0;
+        font-size: clamp(13px, 0.95vw, 16px);
+        line-height: 1.55;
+        letter-spacing: -0.02em;
+        color: rgba(255,255,255,0.68);
       }
 
       #wooriConsultContactPageV1 .launch-btn {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        gap: 14px;
         width: 100%;
-        min-height: 0;
-        padding: 0;
+        padding: 14px 16px;
         border: 0;
-        border-radius: 0;
-        background: transparent;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(242,245,255,0.96) 100%);
         color: #111111;
-        font-size: 25pt;
-        line-height: 1.2;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        text-decoration: none;
+        box-shadow:
+          0 14px 28px rgba(0,0,0,0.18),
+          0 0 0 1px rgba(255,255,255,0.02) inset;
         cursor: pointer;
+        transition: transform 0.24s ease, box-shadow 0.24s ease;
+      }
+
+      #wooriConsultContactPageV1 .launch-btn:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          0 18px 34px rgba(0,0,0,0.20),
+          0 0 22px rgba(76,116,255,0.12);
+      }
+
+      #wooriConsultContactPageV1 .launch-btn strong {
+        font-size: clamp(18px, 1.3vw, 24px);
+        line-height: 1.2;
+        letter-spacing: -0.04em;
+        font-weight: 800;
+        color: #101114;
+        flex: 1 1 auto;
+        text-align: center;
+        padding-left: 38px;
+      }
+
+      #wooriConsultContactPageV1 .launch-arrow {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(76,116,255,0.10);
+        color: #244bd7;
+        font-size: 18px;
+        font-weight: 700;
+        flex: 0 0 auto;
+      }
+
+      #wooriConsultContactPageV1 .launch-bottom {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 20px;
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+
+      #wooriConsultContactPageV1 .launch-info {
+        display: grid;
+        gap: 8px;
+      }
+
+      #wooriConsultContactPageV1 .launch-info-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        align-items: center;
+        font-size: 15px;
+        line-height: 1.52;
+        letter-spacing: -0.02em;
+        color: rgba(255,255,255,0.72);
+      }
+
+      #wooriConsultContactPageV1 .launch-info-line strong {
+        color: rgba(255,255,255,0.96);
+        font-weight: 700;
+      }
+
+      #wooriConsultContactPageV1 .launch-sep {
+        color: rgba(255,255,255,0.22);
+      }
+
+      #wooriConsultContactPageV1 .launch-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        margin-top: 14px;
+        font-size: 12px;
+        line-height: 1.45;
+        color: rgba(255,255,255,0.46);
+        letter-spacing: -0.01em;
+      }
+
+      #wooriConsultContactPageV1 .launch-meta strong {
+        color: rgba(255,255,255,0.72);
+        font-weight: 600;
+      }
+
+      #wooriConsultContactPageV1 .launch-contact {
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+
+      #wooriConsultContactPageV1 .launch-contact-head {
+        font-size: 11px;
+        line-height: 1;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.46);
+        font-weight: 700;
+      }
+
+      #wooriConsultContactPageV1 .launch-contact-text {
+        font-size: clamp(15px, 1vw, 18px);
+        line-height: 1.32;
+        letter-spacing: -0.03em;
+        color: rgba(255,255,255,0.86);
       }
 
       #wooriConsultContactPageV1 .inquiry-modal {
@@ -430,6 +615,11 @@
       }
 
       @media (max-width: 960px) {
+        #wooriConsultContactPageV1 .launch-top,
+        #wooriConsultContactPageV1 .launch-bottom {
+          grid-template-columns: 1fr;
+        }
+
         #wooriConsultContactPageV1 .inquiry-modal {
           padding: 16px;
         }
@@ -442,9 +632,21 @@
       }
 
       @media (max-width: 768px) {
+        #wooriConsultContactPageV1 .launch-wrap {
+          padding: 20px 12px 14px;
+        }
+
+        #wooriConsultContactPageV1 .launch-logo {
+          width: min(72vw, 240px);
+        }
+
         #wooriConsultContactPageV1 .launch-btn {
           width: 100%;
-          font-size: 25pt;
+          min-width: 0;
+        }
+
+        #wooriConsultContactPageV1 .launch-btn {
+          font-size: 16px;
         }
 
         #wooriConsultContactPageV1 .inquiry-form-grid,
@@ -476,7 +678,64 @@
 
     <div class="contact-wrap">
       <div class="launch-wrap">
-        <button type="button" class="launch-btn" id="serviceInquiryOpenBtn">지금 문의해보세요</button>
+        <div class="launch-inner">
+          <div class="launch-top">
+            <div class="launch-brand">
+              <img
+                class="launch-logo"
+                src="https://cdn.imweb.me/upload/S20260212b63c1ebb1583f/43c9333bed986.png"
+                alt="KMA AI 공공 LAB 로고"
+              />
+
+              <div class="launch-copy">
+                공공의 AI 전환을 위한 정책, 교육, 자격, 진단 솔루션을 연결하는 실행형 플랫폼입니다.
+              </div>
+            </div>
+
+            <div class="launch-cta">
+              <h2 class="launch-title">조직에 맞는 AI 실행 전략이 필요하다면</h2>
+              <p class="launch-desc">도입 방향부터 교육과 실행 체계까지, 조직에 적합한 AI 활용 전략을 함께 설계합니다.</p>
+
+              <button type="button" class="launch-btn" id="serviceInquiryOpenBtn">
+                <strong>지금 문의해보세요</strong>
+                <span class="launch-arrow">↗</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="launch-bottom">
+            <div>
+              <div class="launch-info">
+                <div class="launch-info-line">
+                  <strong>KMA</strong>
+                  <span class="launch-sep">|</span>
+                  <span>사단법인 한국능률협회</span>
+                </div>
+
+                <div class="launch-info-line">
+                  <span>상근부회장</span>
+                  <span class="launch-sep">|</span>
+                  <span>최권석</span>
+                </div>
+
+                <div class="launch-info-line">
+                  <span>서울특별시 영등포구 여의도동 의사당대로 22 이룸센터 9-10층 (9층 본회, 10층 공개교육센터)</span>
+                </div>
+              </div>
+
+              <div class="launch-meta">
+                <span><strong>사업자등록번호</strong> 105-82-01810</span>
+                <span><strong>통신판매업신고</strong> 2010-서울영등포-0460</span>
+              </div>
+            </div>
+
+            <div class="launch-contact">
+              <div class="launch-contact-head">Direct Contact</div>
+              <div class="launch-contact-text">contact@kma.or.kr</div>
+              <div class="launch-contact-text">02-3274-9233</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="inquiry-modal" id="serviceInquiryModal" aria-hidden="true">
