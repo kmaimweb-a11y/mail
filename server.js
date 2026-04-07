@@ -121,11 +121,23 @@ app.post("/api/consulting-mail", upload.single("attachFile"), async (req, res) =
       return res.status(500).json({ message: "메일 API 환경변수가 설정되지 않았습니다." });
     }
 
+    const subjectPrefixMap = {
+      "진단": "진단 문의",
+      "교육": "교육 문의",
+      "컨설팅": "컨설팅 문의",
+      "AI 전략수립": "AI 전략수립 문의",
+      "AI 사내 자격인증": "AI 사내 자격인증 문의",
+      "AI 역량모델링": "AI 역량모델링 문의",
+      "AI 교육과정개발": "AI 교육과정개발 문의",
+      "AI 데이터 분석 및 모델개발": "AI 데이터 분석 및 모델개발 문의"
+    };
+    const mailSubjectPrefix = subjectPrefixMap[inquiryType] || "AI 컨설팅 문의";
+
     const resendPayload = {
       from: process.env.RESEND_FROM,
       to: [process.env.MAIL_TO],
       reply_to: email,
-      subject: `[AI 컨설팅 문의] ${subject}`,
+      subject: `[${mailSubjectPrefix}] ${subject}`,
       html: mailHtml,
       attachments: req.file
         ? [
